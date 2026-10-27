@@ -18,8 +18,14 @@ import * as utils from './utils'
 import * as z85 from 'z85'
 
 export const publicKey = fs ? fs.readFileSync('encryptionkeys/jwt.pub', 'utf8') : 'placeholder-public-key'
-const privateKey = process.env.JWT_PRIVATE_KEY ??
-  fs.readFileSync('secrets/jwt.key', 'utf8')
+const privateKey = process.env.JWT_PRIVATE_KEY ?? (() => {
+  try {
+    return fs.readFileSync('secrets/jwt.key', 'utf8')
+  } catch {
+    throw new Error('JWT private key not found: set JWT_PRIVATE_KEY or create secrets/jwt.key')
+  }
+})()
+
 interface ResponseWithUser {
   status?: string
   data: UserModel
