@@ -27,12 +27,12 @@ export function retrieveLoggedInUser () {
         if (requestedFields.length > 0) {
           // When fields are specified, return only those fields
           const allowedFields = ['id', 'email', 'lastLoginIp', 'profileImage']
-      baseUser = {
-        ...baseUser,
-        ...Object.fromEntries(requestedFields
-          .filter(field => allowedFields.includes(field))
-          .map(field => [field, user?.data[field as keyof typeof user.data]]))
-      }
+          baseUser = {
+            ...baseUser,
+            ...Object.fromEntries(requestedFields
+              .filter(field => allowedFields.includes(field))
+              .map(field => [field, user?.data[field as keyof typeof user.data]]))
+          }
         } else {
           // If no fields parameter, return standard fields (not password field)
           baseUser = {
